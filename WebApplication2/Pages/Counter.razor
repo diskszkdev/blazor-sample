@@ -1,0 +1,107 @@
+﻿@page "/counter"
+
+<div class="@(isSelected ? "d-block":"d-none") test bg-danger position-absolute shadow" style="right:0;height:calc(100vh - 56px)">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h3>詳細ペイン</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="name">名前</label>
+                    <input type="text" id="title" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="service">サービス</label>
+                    <input type="text" id="sevice" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid position-absolute" style="bottom:15px;">
+        <div class="row " style="bottom:0;">
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <button class="btn btn-block btn-success rounded-0">編集</button>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <button class="btn btn-block btn-secondary rounded-0" @onclick="onCanceled">キャンセル</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h1>Counter</h1>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>aaa</th>
+            <th>bbb</th>
+            <th>ccc</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in services)
+        {
+            <tr @onclick="e => onSelected(item)" class="@(item == service ? "table-active" : "")">
+                <td>aaa</td>
+                <td>aaa</td>
+                <td>aaa</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    public class Service
+    {
+        public long Id { get; set; }
+        public string Name { get; set; }
+    }
+    private List<Service> services { get; set; } = new List<Service>();
+    private Service service { get; set; } = new Service();
+    private string displayClass { get; set; } = "d-none";
+    private bool isSelected { get; set; } = false;
+
+
+    protected override void OnInitialized()
+    {
+        onSearch();
+    }
+
+    private void onSearch()
+    {
+        var item = new List<Service>()
+{
+            new Service { Id = 1, Name = "aaa" },
+            new Service { Id = 2, Name = "aaa" },
+            new Service { Id = 3, Name = "aaa" },
+        };
+        services = item;
+    }
+
+    private void onSelected(Service s)
+    {
+        if (s == this.service)
+        {
+            isSelected = !isSelected;
+        }
+        else
+        {
+            isSelected = true;
+        }
+        this.service = s;
+    }
+
+    private void onCanceled()
+    {
+        isSelected = false;
+        onSearch();
+    }
+}
